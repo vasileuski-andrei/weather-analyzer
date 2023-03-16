@@ -1,0 +1,7 @@
+data:
+  api:
+    uri: https://weatherapi-com.p.rapidapi.com/current.json
+    headerApiKey: e1fb3ae435msh5d407a16e1d5263p1a1e68jsnf4b1ed7e4f51
+    headerApiHost: weatherapi-com.p.rapidapi.com
+    method: GET
+    city: Minsk
