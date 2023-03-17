@@ -3,7 +3,11 @@ package com.senla.weatheranalyzer.repository;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface WeatherRepository extends JpaRepository<WeatherInfo, Long> {
@@ -14,5 +18,9 @@ public interface WeatherRepository extends JpaRepository<WeatherInfo, Long> {
             "DESC LIMIT 1", nativeQuery = true)
     WeatherInfo findLastWeatherInfo();
 
+    @Query(value = "SELECT * " +
+            "FROM weather_info as w " +
+            "WHERE w.local_time BETWEEN :from AND :to", nativeQuery = true)
+    List<WeatherInfo> findAllWeatherInfoBetween(@Param("from") LocalDate from, @Param("to")LocalDate to);
 
 }
