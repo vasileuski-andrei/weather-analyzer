@@ -1,3 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/weather-db
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: true
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+
 data:
   api:
     uri: https://weatherapi-com.p.rapidapi.com/current.json
