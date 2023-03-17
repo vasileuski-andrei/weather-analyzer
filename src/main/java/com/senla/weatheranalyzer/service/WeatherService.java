@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -46,6 +48,12 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
                 .cloud(weatherInfo.getCloud())
                 .localTime(weatherInfo.getLocalTime())
                 .build();
+    }
+
+    public WeatherInfoDto getWeatherInfoBetween(WeatherInfoDto weatherInfoDto) {
+        var listWeatherInfo = weatherRepository.findAllWeatherInfoBetween(weatherInfoDto.getFrom(), weatherInfoDto.getTo());
+
+        return null;
     }
 
     private WeatherInfo convertToWeatherInfo(WeatherInfoDto userDto) {

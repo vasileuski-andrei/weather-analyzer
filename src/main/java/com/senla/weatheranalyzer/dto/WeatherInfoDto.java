@@ -31,4 +31,7 @@ public class WeatherInfoDto {
     private Double humidity;
     private Double cloud;
 
+    private LocalDate from;
+    private LocalDate to;
+
 }
