@@ -1,5 +1,6 @@
 package com.senla.weatheranalyzer.controller;
 
+import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.service.WeatherService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class WeatherController {
 
-    private WeatherService weatherService;
+    private final WeatherService weatherService;
 
     @GetMapping("/weather")
-    public String getWeatherInfo() {
-        weatherService.getWeatherInfoFromApiAtRegularIntervals();
-        return "data";
+    public WeatherInfoDto getCurrentWeatherInfo() {
+        return weatherService.getCurrentWeatherInfo();
     }
 }
