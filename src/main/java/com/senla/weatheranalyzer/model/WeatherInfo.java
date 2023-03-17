@@ -1,27 +1,32 @@
-package com.senla.weatheranalyzer.dto;
+package com.senla.weatheranalyzer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeatherInfoDto {
+@Entity
+public class WeatherInfo {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String region;
     private String country;
     private String localtimeEpoch;
     private LocalDateTime localTime;
 
+    @Column(name = "temp_c")
     private Double tempC;
+    @Column(name = "temp_f")
     private Double tempF;
     private Double windMph;
     private Double pressureMb;

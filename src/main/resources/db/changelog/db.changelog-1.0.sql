@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS weather_info(
     name VARCHAR(50),
     region VARCHAR(50),
     country VARCHAR(50),
-    timezone_id VARCHAR(50),
     localtime_epoch VARCHAR(50),
     local_time TIMESTAMP,
     temp_c DOUBLE PRECISION,

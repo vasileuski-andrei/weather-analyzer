@@ -10,6 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Slf4j
 @Component
 public class ParserWeatherRapid implements Parser {
@@ -42,9 +46,8 @@ public class ParserWeatherRapid implements Parser {
                 .name(location.get("name").asText())
                 .region(location.get("region").asText())
                 .country(location.get("country").asText())
-                .timezoneId(location.get("tz_id").asText())
-                .localtime_epoch(location.get("localtime_epoch").asText())
-                .localtime(location.get("localtime").asText())
+                .localtimeEpoch(location.get("localtime_epoch").asText())
+                .localTime(LocalDateTime.parse(location.get("localtime").asText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
 
                 .tempC(current.get("temp_c").asDouble())
                 .tempF(current.get("temp_f").asDouble())
