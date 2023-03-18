@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,10 +56,10 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
                 .build();
     }
 
-    public WeatherAverageInfoDto getWeatherAverageInfoBetween(WeatherInfoDto weatherInfoDto) {
+    public List<WeatherAverageInfoDto> getWeatherAverageInfoBetween(WeatherInfoDto weatherInfoDto) {
         var listWeatherInfoBetween = getWeatherInfoBetween(weatherInfoDto);
 
-        return !listWeatherInfoBetween.isEmpty() ? calculateAverageValues(listWeatherInfoBetween) : new WeatherAverageInfoDto();
+        return calculateAverageValues(listWeatherInfoBetween, weatherInfoDto);
 
     }
 
@@ -71,28 +72,60 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         return listWeatherInfo;
     }
 
-    public WeatherAverageInfoDto calculateAverageValues(List<WeatherInfo> listWeatherInfo) {
+    public List<WeatherAverageInfoDto> calculateAverageValues(List<WeatherInfo> listWeatherInfo, WeatherInfoDto weatherInfoDto) {
+        List<WeatherAverageInfoDto> averageInfoDtoList = new ArrayList<>();
         WeatherAverageInfoDto weatherAverageInfoDto = null;
+        var millisecondsOfEndDay = 0L;
 
-        try {
-            var firstElement = listWeatherInfo.get(0);
+        for (int i = 0; i < listWeatherInfo.size(); i++) {
+            var localTime = listWeatherInfo.get(i).getLocalTime();
+            System.out.println(localTime);
+            millisecondsOfEndDay = CommonUtil.getMillisecondsEndOfDayFromLocalDateTime(localTime);
+            System.out.println("millisecondsOfEndDay " + millisecondsOfEndDay);
 
-            weatherAverageInfoDto = WeatherAverageInfoDto.builder()
-                    .region(firstElement.getRegion())
-                    .country(firstElement.getCountry())
-                    .averageTempC(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getTempC).average().getAsDouble()))
-                    .averageTempF(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getTempF).average().getAsDouble()))
-                    .averageWindMph(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getWindMph).average().getAsDouble()))
-                    .averagePressureMb(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getPressureMb).average().getAsDouble()))
-                    .averageHumidity(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getHumidity).average().getAsDouble()))
-                    .averageCloud(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getCloud).average().getAsDouble()))
-                    .build();
+            int sumTempC = 0;
+            int sumTempF = 0;
+            double sumWindMph = 0;
+            double sumPressureMb = 0;
+            int sumHumidity = 0;
+            int sumCloud = 0;
 
-        } catch (RuntimeException e) {
-            log.warn("Some weather info isn't present " + e);
+            int counter = 0;
+
+            for (int j = i; j < listWeatherInfo.size(); j++) {
+                var currentElement = listWeatherInfo.get(j);
+                counter++;
+
+                sumTempC += currentElement.getTempC();
+                sumTempF += currentElement.getTempF();
+                sumWindMph += currentElement.getWindMph();
+                sumPressureMb += currentElement.getPressureMb();
+                sumHumidity += currentElement.getHumidity();
+                sumCloud += currentElement.getCloud();
+
+                if (currentElement.getLocaltimeEpoch() > millisecondsOfEndDay || j == listWeatherInfo.size()-1) {
+
+                    System.out.println("COUNTER " + counter);
+                    weatherAverageInfoDto = WeatherAverageInfoDto.builder()
+                            .region(currentElement.getRegion())
+                            .country(currentElement.getCountry())
+                            .localDateTime(currentElement.getLocalTime())
+                            .averageTempC(sumTempC / counter)
+                            .averageTempF(sumTempF / counter)
+                            .averageWindMph(round(sumWindMph / counter))
+                            .averagePressureMb(round(sumPressureMb / counter))
+                            .averageHumidity(sumHumidity / counter)
+                            .averageCloud(sumCloud / counter)
+                            .build();
+
+                    averageInfoDtoList.add(weatherAverageInfoDto);
+                    i = j;
+                    break;
+                }
+            }
         }
 
-        return weatherAverageInfoDto;
+        return averageInfoDtoList;
     }
 
     private double round(double number) {

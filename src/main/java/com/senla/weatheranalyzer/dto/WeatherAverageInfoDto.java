@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,12 +18,13 @@ public class WeatherAverageInfoDto {
 
     private String region;
     private String country;
+    private LocalDateTime localDateTime;
 
     @JsonProperty("average_temp_c")
-    private Double averageTempC;
+    private Integer averageTempC;
 
     @JsonProperty("average_temp_f")
-    private Double averageTempF;
+    private Integer averageTempF;
 
     @JsonProperty("average_wind_mph")
     private Double averageWindMph;
@@ -30,9 +33,9 @@ public class WeatherAverageInfoDto {
     private Double averagePressureMb;
 
     @JsonProperty("average_humidity")
-    private Double averageHumidity;
+    private Integer averageHumidity;
 
     @JsonProperty("average_cloud")
-    private Double averageCloud;
+    private Integer averageCloud;
 
 }

@@ -24,4 +24,11 @@ public class CommonUtil {
         return zoneDateTime.toInstant().toEpochMilli()/1000;
     }
 
+    public static long getMillisecondsEndOfDayFromLocalDateTime(LocalDateTime localDateTime) {
+        LocalDateTime endOfDate = localDateTime.toLocalDate().atTime(LocalTime.MAX);
+        ZonedDateTime zoneDateTime = endOfDate.atZone(ZoneId.of("Europe/Minsk"));
+
+        return  zoneDateTime.toInstant().toEpochMilli() / 1000;
+    }
+
 }

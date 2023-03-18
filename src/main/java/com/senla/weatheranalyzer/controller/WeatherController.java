@@ -11,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/weather")
@@ -36,7 +38,7 @@ public class WeatherController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public WeatherAverageInfoDto getAverageWeatherInfoBetweenTwoDates(@RequestBody @Validated WeatherInfoDto weatherConditionDto) {
+    public List<WeatherAverageInfoDto> getAverageWeatherInfoBetweenTwoDates(@RequestBody WeatherInfoDto weatherConditionDto) {
 
         return weatherService.getWeatherAverageInfoBetween(weatherConditionDto);
     }
