@@ -24,7 +24,7 @@ public class WeatherController {
     public ResponseEntity exceptionHandler(Exception e) {
         log.error("Failed to return the data: " + e);
 
-        return new ResponseEntity("Check the body of your POST request. Date format should be: yyyy-MM-dd H:mm", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("Check the body of your POST request. Date format should be: yyyy-MM-dd HH:mm", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping

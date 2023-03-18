@@ -43,7 +43,7 @@ public class WeatherApiService {
         try {
             response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            log.error("Fail get data from API: {}", uri, e);
+            log.error("Failed get data from API: {}", uri, e);
         }
 
         log.info("The data got successfully from API: {}", uri + " " + response.body());
