@@ -4,13 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
-
 import com.senla.weatheranalyzer.service.WeatherApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class ParserWeatherRapid implements Parser {
 
-    private WeatherApiService weatherApiService;
+    private final WeatherApiService weatherApiService;
 
     @Autowired
     public ParserWeatherRapid(WeatherApiService weatherApiService) {
@@ -46,8 +44,8 @@ public class ParserWeatherRapid implements Parser {
                 .name(location.get("name").asText())
                 .region(location.get("region").asText())
                 .country(location.get("country").asText())
-                .localtimeEpoch(location.get("localtime_epoch").asText())
-                .localTime(LocalDateTime.parse(location.get("localtime").asText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .localtimeEpoch(location.get("localtime_epoch").asLong())
+                .localTime(LocalDateTime.parse(location.get("localtime").asText(), DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm")))
 
                 .tempC(current.get("temp_c").asDouble())
                 .tempF(current.get("temp_f").asDouble())

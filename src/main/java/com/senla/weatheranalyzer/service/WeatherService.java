@@ -4,14 +4,13 @@ import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.parser.ParserWeatherRapid;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
+import com.senla.weatheranalyzer.util.CommonUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -37,6 +36,7 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     public WeatherInfoDto getCurrentWeatherInfo() {
         getWeatherInfoFromApiAtRegularIntervals();
         log.info("The last weather info got successfully from API");
+
         WeatherInfo weatherInfo = weatherRepository.findLastWeatherInfo();
 
         return WeatherInfoDto.builder()
@@ -51,7 +51,10 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     }
 
     public WeatherInfoDto getWeatherInfoBetween(WeatherInfoDto weatherInfoDto) {
-        var listWeatherInfo = weatherRepository.findAllWeatherInfoBetween(weatherInfoDto.getFrom(), weatherInfoDto.getTo());
+        var from = CommonUtil.convertTimeToMilliseconds(weatherInfoDto.getFrom());
+        var to = CommonUtil.convertTimeToMilliseconds(weatherInfoDto.getTo());
+        var listWeatherInfo = weatherRepository.findAllWeatherInfoBetween(from, to);
+        log.info("Weather info from {} to {} got successfully. Result: {}", from, to, listWeatherInfo.size());
 
         return null;
     }

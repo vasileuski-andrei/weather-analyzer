@@ -1,12 +1,10 @@
 package com.senla.weatheranalyzer.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,7 +19,7 @@ public class WeatherInfo {
     private String name;
     private String region;
     private String country;
-    private String localtimeEpoch;
+    private Long localtimeEpoch;
     private LocalDateTime localTime;
 
     @Column(name = "temp_c")
