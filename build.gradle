@@ -21,6 +21,7 @@ dependencies {
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.liquibase:liquibase-core'
 	implementation "org.modelmapper:modelmapper:${versions.modelmapper}"
+	implementation "org.springdoc:springdoc-openapi-ui:${versions.openapi}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

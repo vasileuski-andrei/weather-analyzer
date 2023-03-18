@@ -46,7 +46,7 @@ public class WeatherApiService {
             log.error("Fail get data from API: {}", uri, e);
         }
 
-        log.info("The data got successfully from API: {}", uri);
+        log.info("The data got successfully from API: {}", uri + " " + response.body());
         return response.body();
     }
 
