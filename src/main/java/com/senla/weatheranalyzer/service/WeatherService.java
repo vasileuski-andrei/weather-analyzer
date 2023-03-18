@@ -80,19 +80,23 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
             weatherAverageInfoDto = WeatherAverageInfoDto.builder()
                     .region(firstElement.getRegion())
                     .country(firstElement.getCountry())
-                    .averageTempC(listWeatherInfo.stream().mapToDouble(WeatherInfo::getTempC).average().getAsDouble())
-                    .averageTempF(listWeatherInfo.stream().mapToDouble(WeatherInfo::getTempF).average().getAsDouble())
-                    .averageWindMph(listWeatherInfo.stream().mapToDouble(WeatherInfo::getWindMph).average().getAsDouble())
-                    .averagePressureMb(listWeatherInfo.stream().mapToDouble(WeatherInfo::getPressureMb).average().getAsDouble())
-                    .averageHumidity(listWeatherInfo.stream().mapToDouble(WeatherInfo::getHumidity).average().getAsDouble())
-                    .averageCloud(listWeatherInfo.stream().mapToDouble(WeatherInfo::getCloud).average().getAsDouble())
+                    .averageTempC(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getTempC).average().getAsDouble()))
+                    .averageTempF(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getTempF).average().getAsDouble()))
+                    .averageWindMph(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getWindMph).average().getAsDouble()))
+                    .averagePressureMb(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getPressureMb).average().getAsDouble()))
+                    .averageHumidity(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getHumidity).average().getAsDouble()))
+                    .averageCloud(round(listWeatherInfo.stream().mapToDouble(WeatherInfo::getCloud).average().getAsDouble()))
                     .build();
 
         } catch (RuntimeException e) {
-            log.info("Some weather info isn't present " + e);
+            log.warn("Some weather info isn't present " + e);
         }
 
         return weatherAverageInfoDto;
+    }
+
+    private double round(double number) {
+        return Math.round(number * 100.0) / 100.0;
     }
 
     private WeatherInfo convertToWeatherInfo(WeatherInfoDto userDto) {
