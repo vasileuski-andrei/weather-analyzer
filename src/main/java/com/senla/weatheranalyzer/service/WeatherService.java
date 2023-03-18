@@ -63,8 +63,8 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     }
 
     public List<WeatherInfo> getWeatherInfoBetween(WeatherInfoDto weatherInfoDto) {
-        var from = CommonUtil.convertTimeToMilliseconds(weatherInfoDto.getFrom());
-        var to = CommonUtil.convertTimeToMilliseconds(weatherInfoDto.getTo());
+        var from = CommonUtil.getMillisecondsOfStartDay(weatherInfoDto.getFrom());
+        var to = CommonUtil.getMillisecondsOfEndDay(weatherInfoDto.getTo());
         var listWeatherInfo = weatherRepository.findAllWeatherInfoBetween(from, to);
         log.info("Weather info from {} to {} got successfully. Result: {}", from, to, listWeatherInfo.size());
 

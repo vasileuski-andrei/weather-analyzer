@@ -36,11 +36,3 @@ public class WeatherInfoDto {
     private String to;
 
 }
-
-//region": "Minsk",
-//        "localTime": "2023-03-18T17:03:00",
-//        "tempC": 7,
-//        "windMph": 18.6,
-//        "pressureMb": 1026,
-//        "humidity": 33,
-//        "cloud": 0

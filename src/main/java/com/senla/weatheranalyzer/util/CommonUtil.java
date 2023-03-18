@@ -2,20 +2,26 @@ package com.senla.weatheranalyzer.util;
 
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @UtilityClass
 public class CommonUtil {
 
-    public static long convertTimeToMilliseconds(String date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(date, dateTimeFormatter);
-        ZonedDateTime zoneDateTime = localDateTime.atZone(ZoneId.of("Europe/Minsk"));
-        long epochMilliseconds = zoneDateTime.toInstant().toEpochMilli()/1000;
+    public static long getMillisecondsOfStartDay(String date) {
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        LocalDateTime startOfDate = LocalTime.MIN.atDate(localDate);
+        ZonedDateTime zoneDateTime = startOfDate.atZone(ZoneId.of("Europe/Minsk"));
 
-        return epochMilliseconds;
+        return zoneDateTime.toInstant().toEpochMilli()/1000;
     }
+
+    public static long getMillisecondsOfEndDay(String date) {
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        LocalDateTime startOfDate = LocalTime.MAX.atDate(localDate);
+        ZonedDateTime zoneDateTime = startOfDate.atZone(ZoneId.of("Europe/Minsk"));
+
+        return zoneDateTime.toInstant().toEpochMilli()/1000;
+    }
+
 }
