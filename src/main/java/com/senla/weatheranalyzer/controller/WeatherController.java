@@ -1,5 +1,6 @@
 package com.senla.weatheranalyzer.controller;
 
+import com.senla.weatheranalyzer.dto.WeatherAverageInfoDto;
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.service.WeatherService;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,7 @@ public class WeatherController {
     }
 
     @PostMapping
-    public WeatherInfoDto getAverageWeatherInfoBetweenTwoDates(@RequestBody WeatherInfoDto weatherConditionDto) {
-        return weatherService.getWeatherInfoBetween(weatherConditionDto);
-
+    public WeatherAverageInfoDto getAverageWeatherInfoBetweenTwoDates(@RequestBody WeatherInfoDto weatherConditionDto) {
+        return weatherService.getWeatherAverageInfoBetween(weatherConditionDto);
     }
 }
