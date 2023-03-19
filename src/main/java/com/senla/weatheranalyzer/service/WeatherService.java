@@ -25,8 +25,8 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     private final WeatherRepository weatherRepository;
     private final ModelMapper modelMapper;
 
-//    @Async
-//    @Scheduled(fixedRate = 60000)
+    @Async
+    @Scheduled(fixedRate = 60000)
     public void getWeatherInfoFromApiAtRegularIntervals() {
         WeatherInfoDto weatherInfoDto = parserWeatherRapid.parse();
         save(weatherInfoDto);
@@ -76,7 +76,6 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
 
     public List<WeatherAverageInfoDto> calculateAverageValues(List<WeatherInfo> listWeatherInfo) {
         List<WeatherAverageInfoDto> averageInfoDtoList = new ArrayList<>();
-//        WeatherAverageInfoDto weatherAverageInfoDto = null;
         var millisecondsOfEndDay = 0L;
         int i = 0;
         int j = 0;

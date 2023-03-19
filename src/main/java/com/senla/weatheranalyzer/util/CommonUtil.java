@@ -31,4 +31,10 @@ public class CommonUtil {
         return  zoneDateTime.toInstant().toEpochMilli() / 1000;
     }
 
+    public long getMillisecondsFromLocalDateTime(LocalDateTime localDateTime) {
+        ZonedDateTime zdt = localDateTime.atZone(ZoneId.of("Europe/Minsk"));
+
+        return zdt.toInstant().toEpochMilli()/1000;
+    }
+
 }
