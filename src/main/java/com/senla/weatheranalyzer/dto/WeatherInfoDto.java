@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WeatherInfoDto {
 
+    private Long id;
     private String name;
     private String region;
     private String country;
