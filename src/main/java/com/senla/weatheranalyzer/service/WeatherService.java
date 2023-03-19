@@ -26,7 +26,7 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     private final ModelMapper modelMapper;
 
     @Async
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "${scheduling.job.cron}")
     public void getWeatherInfoFromApiAtRegularIntervals() {
         WeatherInfoDto weatherInfoDto = parserWeatherRapid.parse();
         save(weatherInfoDto);
@@ -46,8 +46,10 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         log.info("The last weather info got successfully from API");
 
         WeatherInfo weatherInfo = weatherRepository.findLastWeatherInfo();
+        System.out.println("weatherInfo " + weatherInfo.toString());
 
         return WeatherInfoDto.builder()
+                .id(weatherInfo.getId())
                 .region(weatherInfo.getRegion())
                 .tempC(weatherInfo.getTempC())
                 .windMph(weatherInfo.getWindMph())

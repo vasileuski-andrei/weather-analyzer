@@ -20,3 +20,7 @@ data:
     headerApiHost: weatherapi-com.p.rapidapi.com
     method: GET
     city: Minsk
+
+scheduling:
+  job:
+    cron: '@hourly'

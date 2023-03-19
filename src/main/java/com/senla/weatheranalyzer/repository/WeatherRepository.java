@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface WeatherRepository extends JpaRepository<WeatherInfo, Long> {
 
-    @Query(value = "SELECT w.id, w.region, w.temp_c, w.wind_mph, w.pressure_mb, w.humidity, w.cloud, w.local_time " +
+    @Query(value = "SELECT w.id, w.name, w.region, w.country, w.local_time, w.localtime_epoch, w.temp_c, w.temp_f, w.wind_mph, w.pressure_mb, w.pressure_in, w.humidity, w.cloud " +
             "FROM weather_info as w " +
             "ORDER BY w.id " +
             "DESC LIMIT 1", nativeQuery = true)
@@ -21,5 +21,7 @@ public interface WeatherRepository extends JpaRepository<WeatherInfo, Long> {
             "FROM weather_info as w " +
             "WHERE w.localtime_epoch BETWEEN :from AND :to", nativeQuery = true)
     List<WeatherInfo> findAllWeatherInfoBetween(@Param("from") Long from, @Param("to")Long to);
+
+
 
 }

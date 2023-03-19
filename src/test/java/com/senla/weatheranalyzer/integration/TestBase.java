@@ -1,4 +1,4 @@
-package com.senla.weatheranalyzer;
+package com.senla.weatheranalyzer.integration;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;

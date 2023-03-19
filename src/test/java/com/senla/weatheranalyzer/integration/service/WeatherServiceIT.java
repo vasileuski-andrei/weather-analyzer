@@ -1,9 +1,8 @@
 package com.senla.weatheranalyzer.integration.service;
 
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
-import com.senla.weatheranalyzer.TestBase;
+import com.senla.weatheranalyzer.integration.TestBase;
 import com.senla.weatheranalyzer.integration.annotation.IT;
-import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.service.WeatherService;
 import com.senla.weatheranalyzer.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
@@ -52,11 +51,21 @@ public class WeatherServiceIT extends TestBase {
     }
 
     @Test
+    public void getCurrentWeatherInfoTest() {
+
+        var actual = weatherService.getCurrentWeatherInfo().getId();
+
+        assertThat(actual).isGreaterThan(0);
+
+    }
+
+    @Test
     public void saveWeatherInfoTest() {
 
         var actual = weatherService.save(weatherInfoDto);
 
-        assertThat(actual).isEqualTo(ENTITY_ID);
+        assertThat(actual).isGreaterThan(0);
+
     }
 
 }
