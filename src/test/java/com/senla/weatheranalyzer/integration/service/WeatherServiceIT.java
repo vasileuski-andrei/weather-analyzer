@@ -1,15 +1,20 @@
 package com.senla.weatheranalyzer.integration.service;
 
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
+import com.senla.weatheranalyzer.integration.TestBase;
+import com.senla.weatheranalyzer.integration.annotation.IT;
 import com.senla.weatheranalyzer.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Assertions.*;
+
+@IT
 @SpringBootTest
 @RequiredArgsConstructor
-public class WeatherServiceIT {
+public class WeatherServiceIT extends TestBase {
 
     private final WeatherService weatherService;
 
@@ -23,7 +28,7 @@ public class WeatherServiceIT {
 
         var actual = weatherService.getWeatherAverageInfoBetween(weatherInfo).size();
 
-        Assertions.assertThat(actual).isGreaterThan(0);
+        assertThat(actual).isEqualTo(2);
 
     }
 
