@@ -1,6 +1,7 @@
 package com.senla.weatheranalyzer.service;
 
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
+import com.senla.weatheranalyzer.TestBase;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.parser.ParserWeatherRapid;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,9 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-
-@SpringBootTest
-class WeatherServiceTest {
+class WeatherServiceTest extends TestBase {
 
     @InjectMocks
     private WeatherService weatherService;

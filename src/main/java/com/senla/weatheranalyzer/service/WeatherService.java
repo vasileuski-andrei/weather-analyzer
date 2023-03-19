@@ -114,20 +114,23 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
                 }
             }
 
-            var weatherAverageInfoDto = WeatherAverageInfoDto.builder()
-                    .region(firstMeasurementsOfDay.getRegion())
-                    .country(firstMeasurementsOfDay.getCountry())
-                    .localDateTime(localTime.toLocalDate())
-                    .averageTempC(sumTempC / elementCounter)
-                    .averageTempF(sumTempF / elementCounter)
-                    .averageWindMph(round(sumWindMph / elementCounter))
-                    .averagePressureMb(round(sumPressureMb / elementCounter))
-                    .averageHumidity(sumHumidity / elementCounter)
-                    .averageCloud(sumCloud / elementCounter)
-                    .rowAmount(elementCounter)
-                    .build();
+            if (elementCounter != 0) {
+                var weatherAverageInfoDto = WeatherAverageInfoDto.builder()
+                        .region(firstMeasurementsOfDay.getRegion())
+                        .country(firstMeasurementsOfDay.getCountry())
+                        .localDateTime(localTime.toLocalDate())
+                        .averageTempC(sumTempC / elementCounter)
+                        .averageTempF(sumTempF / elementCounter)
+                        .averageWindMph(round(sumWindMph / elementCounter))
+                        .averagePressureMb(round(sumPressureMb / elementCounter))
+                        .averageHumidity(sumHumidity / elementCounter)
+                        .averageCloud(sumCloud / elementCounter)
+                        .rowAmount(elementCounter)
+                        .build();
 
-            averageInfoDtoList.add(weatherAverageInfoDto);
+                averageInfoDtoList.add(weatherAverageInfoDto);
+            }
+
             i = j;
 
             log.info("Calculation of average weather values was successful");
