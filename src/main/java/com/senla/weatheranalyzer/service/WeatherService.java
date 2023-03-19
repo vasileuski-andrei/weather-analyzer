@@ -25,18 +25,20 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     private final WeatherRepository weatherRepository;
     private final ModelMapper modelMapper;
 
-    @Async
-    @Scheduled(fixedRate = 60000)
+//    @Async
+//    @Scheduled(fixedRate = 60000)
     public void getWeatherInfoFromApiAtRegularIntervals() {
         WeatherInfoDto weatherInfoDto = parserWeatherRapid.parse();
         save(weatherInfoDto);
     }
 
-    public void save(WeatherInfoDto weatherInfoDto) {
-        WeatherInfo client = convertToWeatherInfo(weatherInfoDto);
-        weatherRepository.save(client);
+    public Long save(WeatherInfoDto weatherInfoDto) {
+        WeatherInfo weatherInfo = convertToWeatherInfo(weatherInfoDto);
+        WeatherInfo savedWeatherInfo = weatherRepository.save(weatherInfo);
 
         log.info("The weather info was saved in database");
+
+        return savedWeatherInfo.getId();
     }
 
     public WeatherInfoDto getCurrentWeatherInfo() {
@@ -59,7 +61,7 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     public List<WeatherAverageInfoDto> getWeatherAverageInfoBetween(WeatherInfoDto weatherInfoDto) {
         var listWeatherInfoBetween = getWeatherInfoBetween(weatherInfoDto);
 
-        return calculateAverageValues(listWeatherInfoBetween, weatherInfoDto);
+        return calculateAverageValues(listWeatherInfoBetween);
 
     }
 
@@ -72,16 +74,17 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         return listWeatherInfo;
     }
 
-    public List<WeatherAverageInfoDto> calculateAverageValues(List<WeatherInfo> listWeatherInfo, WeatherInfoDto weatherInfoDto) {
+    public List<WeatherAverageInfoDto> calculateAverageValues(List<WeatherInfo> listWeatherInfo) {
         List<WeatherAverageInfoDto> averageInfoDtoList = new ArrayList<>();
-        WeatherAverageInfoDto weatherAverageInfoDto = null;
+//        WeatherAverageInfoDto weatherAverageInfoDto = null;
         var millisecondsOfEndDay = 0L;
+        int i = 0;
+        int j = 0;
 
-        for (int i = 0; i < listWeatherInfo.size(); i++) {
-            var localTime = listWeatherInfo.get(i).getLocalTime();
-            System.out.println(localTime);
+        while (i < listWeatherInfo.size()-1) {
+            var firstMeasurementsOfDay = listWeatherInfo.get(i);
+            var localTime = firstMeasurementsOfDay.getLocalTime();
             millisecondsOfEndDay = CommonUtil.getMillisecondsEndOfDayFromLocalDateTime(localTime);
-            System.out.println("millisecondsOfEndDay " + millisecondsOfEndDay);
 
             int sumTempC = 0;
             int sumTempF = 0;
@@ -90,39 +93,45 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
             int sumHumidity = 0;
             int sumCloud = 0;
 
-            int counter = 0;
+            int elementCounter = 0;
 
-            for (int j = i; j < listWeatherInfo.size(); j++) {
+            for (j = i; j < listWeatherInfo.size(); j++) {
                 var currentElement = listWeatherInfo.get(j);
-                counter++;
 
-                sumTempC += currentElement.getTempC();
-                sumTempF += currentElement.getTempF();
-                sumWindMph += currentElement.getWindMph();
-                sumPressureMb += currentElement.getPressureMb();
-                sumHumidity += currentElement.getHumidity();
-                sumCloud += currentElement.getCloud();
+                if (currentElement.getLocaltimeEpoch() < millisecondsOfEndDay) {
 
-                if (currentElement.getLocaltimeEpoch() > millisecondsOfEndDay || j == listWeatherInfo.size()-1) {
+                    sumTempC += currentElement.getTempC();
+                    sumTempF += currentElement.getTempF();
+                    sumWindMph += currentElement.getWindMph();
+                    sumPressureMb += currentElement.getPressureMb();
+                    sumHumidity += currentElement.getHumidity();
+                    sumCloud += currentElement.getCloud();
 
-                    System.out.println("COUNTER " + counter);
-                    weatherAverageInfoDto = WeatherAverageInfoDto.builder()
-                            .region(currentElement.getRegion())
-                            .country(currentElement.getCountry())
-                            .localDateTime(currentElement.getLocalTime())
-                            .averageTempC(sumTempC / counter)
-                            .averageTempF(sumTempF / counter)
-                            .averageWindMph(round(sumWindMph / counter))
-                            .averagePressureMb(round(sumPressureMb / counter))
-                            .averageHumidity(sumHumidity / counter)
-                            .averageCloud(sumCloud / counter)
-                            .build();
+                    elementCounter++;
 
-                    averageInfoDtoList.add(weatherAverageInfoDto);
-                    i = j;
+                } else {
                     break;
                 }
             }
+
+            var weatherAverageInfoDto = WeatherAverageInfoDto.builder()
+                    .region(firstMeasurementsOfDay.getRegion())
+                    .country(firstMeasurementsOfDay.getCountry())
+                    .localDateTime(localTime.toLocalDate())
+                    .averageTempC(sumTempC / elementCounter)
+                    .averageTempF(sumTempF / elementCounter)
+                    .averageWindMph(round(sumWindMph / elementCounter))
+                    .averagePressureMb(round(sumPressureMb / elementCounter))
+                    .averageHumidity(sumHumidity / elementCounter)
+                    .averageCloud(sumCloud / elementCounter)
+                    .rowAmount(elementCounter)
+                    .build();
+
+            averageInfoDtoList.add(weatherAverageInfoDto);
+            i = j;
+
+            log.info("Calculation of average weather values was successful");
+
         }
 
         return averageInfoDtoList;
