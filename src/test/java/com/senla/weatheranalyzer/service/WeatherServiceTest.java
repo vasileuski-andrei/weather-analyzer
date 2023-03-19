@@ -4,7 +4,7 @@ import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.parser.ParserWeatherRapid;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
-import com.senla.weatheranalyzer.util.CommonUtil;
+import com.senla.weatheranalyzer.util.DateTimeUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -42,7 +42,7 @@ class WeatherServiceTest {
                 .pressureMb(1022.0)
                 .humidity(65.0)
                 .cloud(0.0)
-                .localtimeEpoch(CommonUtil.getMillisecondsFromLocalDateTime(LocalDateTime.now()))
+                .localtimeEpoch(DateTimeUtil.getMillisecondsFromLocalDateTime(LocalDateTime.now()))
                 .build();
     }
 

@@ -5,7 +5,7 @@ import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.parser.ParserWeatherRapid;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
-import com.senla.weatheranalyzer.util.CommonUtil;
+import com.senla.weatheranalyzer.util.DateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -66,8 +66,8 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     }
 
     public List<WeatherInfo> getWeatherInfoBetween(WeatherInfoDto weatherInfoDto) {
-        var from = CommonUtil.getMillisecondsOfStartDay(weatherInfoDto.getFrom());
-        var to = CommonUtil.getMillisecondsOfEndDay(weatherInfoDto.getTo());
+        var from = DateTimeUtil.getMillisecondsOfStartDay(weatherInfoDto.getFrom());
+        var to = DateTimeUtil.getMillisecondsOfEndDay(weatherInfoDto.getTo());
         var listWeatherInfo = weatherRepository.findAllWeatherInfoBetween(from, to);
         log.info("Weather info from {} to {} got successfully. Result: {}", from, to, listWeatherInfo.size());
 
@@ -83,7 +83,7 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         while (i < listWeatherInfo.size()-1) {
             var firstMeasurementsOfDay = listWeatherInfo.get(i);
             var localTime = firstMeasurementsOfDay.getLocalTime();
-            millisecondsOfEndDay = CommonUtil.getMillisecondsEndOfDayFromLocalDateTime(localTime);
+            millisecondsOfEndDay = DateTimeUtil.getMillisecondsEndOfDayFromLocalDateTime(localTime);
 
             int sumTempC = 0;
             int sumTempF = 0;

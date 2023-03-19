@@ -6,35 +6,34 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @UtilityClass
-public class CommonUtil {
+public class DateTimeUtil {
+
+    public static final String CITY = "Europe/Minsk";
 
     public static long getMillisecondsOfStartDay(String date) {
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         LocalDateTime startOfDate = LocalTime.MIN.atDate(localDate);
-        ZonedDateTime zoneDateTime = startOfDate.atZone(ZoneId.of("Europe/Minsk"));
 
-        return zoneDateTime.toInstant().toEpochMilli()/1000;
+        return getMillisecondsFromLocalDateTime(startOfDate);
     }
 
     public static long getMillisecondsOfEndDay(String date) {
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        LocalDateTime startOfDate = LocalTime.MAX.atDate(localDate);
-        ZonedDateTime zoneDateTime = startOfDate.atZone(ZoneId.of("Europe/Minsk"));
+        LocalDateTime endOfDate = LocalTime.MAX.atDate(localDate);
 
-        return zoneDateTime.toInstant().toEpochMilli()/1000;
+        return getMillisecondsFromLocalDateTime(endOfDate);
     }
 
     public static long getMillisecondsEndOfDayFromLocalDateTime(LocalDateTime localDateTime) {
         LocalDateTime endOfDate = localDateTime.toLocalDate().atTime(LocalTime.MAX);
-        ZonedDateTime zoneDateTime = endOfDate.atZone(ZoneId.of("Europe/Minsk"));
 
-        return  zoneDateTime.toInstant().toEpochMilli() / 1000;
+        return getMillisecondsFromLocalDateTime(endOfDate);
     }
 
     public long getMillisecondsFromLocalDateTime(LocalDateTime localDateTime) {
-        ZonedDateTime zdt = localDateTime.atZone(ZoneId.of("Europe/Minsk"));
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of(CITY));
 
-        return zdt.toInstant().toEpochMilli()/1000;
+        return zonedDateTime.toInstant().toEpochMilli() / 1000;
     }
 
 }
