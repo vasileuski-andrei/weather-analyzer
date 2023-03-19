@@ -33,7 +33,7 @@ class WeatherServiceTest {
     private static WeatherInfo weatherInfo;
 
     @BeforeAll
-    static void init() {
+    public static void init() {
         weatherInfo = WeatherInfo.builder()
                 .localTime(LocalDateTime.now())
                 .tempC(4.0)

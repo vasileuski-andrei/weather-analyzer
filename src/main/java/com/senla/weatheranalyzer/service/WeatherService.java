@@ -25,8 +25,8 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     private final WeatherRepository weatherRepository;
     private final ModelMapper modelMapper;
 
-//    @Async
-//    @Scheduled(fixedRate = 60000)
+    @Async
+    @Scheduled(fixedRate = 60000)
     public void getWeatherInfoFromApiAtRegularIntervals() {
         WeatherInfoDto weatherInfoDto = parserWeatherRapid.parse();
         save(weatherInfoDto);

@@ -1,5 +1,6 @@
 package com.senla.weatheranalyzer.service;
 
+import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import java.net.http.HttpResponse;
 
 @Component
 @Slf4j
-public class WeatherApiService {
+public class WeatherRequestService {
 
     @Value("${data.api.uri}")
     private String uri;
@@ -28,7 +29,6 @@ public class WeatherApiService {
 
     @Value("${data.api.city}")
     private String city;
-
 
     public String getDataFromApi() {
 
@@ -49,6 +49,5 @@ public class WeatherApiService {
         log.info("The data got successfully from API: {}", uri + " " + response.body());
         return response.body();
     }
-
 
 }
