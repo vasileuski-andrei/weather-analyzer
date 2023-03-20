@@ -73,6 +73,14 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     public List<WeatherAverageInfoDto> getWeatherAverageInfoBetween(WeatherInfoDto weatherInfoDto) {
         var listWeatherInfoBetween = getWeatherInfoBetween(weatherInfoDto);
 
+        if (listWeatherInfoBetween.size() == 1) {
+            List<WeatherAverageInfoDto> weatherAverageInfoDtoList = new ArrayList<>();
+            weatherAverageInfoDtoList.add(convertFromWeatherInfoToWeatherAverageDto(listWeatherInfoBetween.get(0)));
+
+            return weatherAverageInfoDtoList;
+
+        }
+
         return calculateAverageValues(listWeatherInfoBetween);
 
     }
@@ -129,7 +137,7 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
                 var weatherAverageInfoDto = WeatherAverageInfoDto.builder()
                         .region(firstMeasurementsOfDay.getRegion())
                         .country(firstMeasurementsOfDay.getCountry())
-                        .localDateTime(localTime.toLocalDate())
+                        .localDate(localTime.toLocalDate())
                         .averageTempC(sumTempC / elementCounter)
                         .averageTempF(sumTempF / elementCounter)
                         .averageWindMph(round(sumWindMph / elementCounter))
@@ -161,6 +169,23 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
 
     private WeatherInfoDto convertFromWeatherInfo(WeatherInfo weatherInfo) {
         return modelMapper.map(weatherInfo, WeatherInfoDto.class);
+    }
+
+    private WeatherAverageInfoDto convertFromWeatherInfoToWeatherAverageDto(WeatherInfo weatherInfo) {
+
+        return WeatherAverageInfoDto.builder()
+                .region(weatherInfo.getRegion())
+                .country(weatherInfo.getCountry())
+                .localDate(weatherInfo.getLocalTime().toLocalDate())
+                .averageTempC(weatherInfo.getTempC().intValue())
+                .averageTempF(weatherInfo.getTempF().intValue())
+                .averageWindMph(weatherInfo.getWindMph())
+                .averagePressureMb(weatherInfo.getPressureMb())
+                .averageHumidity(weatherInfo.getHumidity().intValue())
+                .averageCloud(weatherInfo.getCloud().intValue())
+                .rowAmount(1)
+                .build();
+
     }
 
 }
