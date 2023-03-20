@@ -5,7 +5,7 @@ Weather analyzer
 Технологии: Java 17, Spring Boot 2.7.9, Gradle, PostgreSQL, Docker, Liquibase, JUnit, Mockito, Swagger, Lombok, Testcontainers, Slf4j, Modelmapper.
 Unit and integration tests in testcontainers
 
-Weather analyzer - REST приложение Weather analyzer c периодичностью запрашивает погоду со стороннего API по определенному городу и сохраняет информация в БД.
+Weather analyzer - REST приложение которое c периодичностью запрашивает погоду со стороннего API по определенному городу и сохраняет информацию в БД.
 
 Endpoints:
 
