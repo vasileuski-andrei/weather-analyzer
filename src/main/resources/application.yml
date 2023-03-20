@@ -23,4 +23,4 @@ data:
 
 scheduling:
   job:
-    cron: '@hourly'
+    cron: '0 */15 * ? * *'

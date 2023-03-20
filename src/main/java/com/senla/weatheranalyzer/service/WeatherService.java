@@ -29,14 +29,24 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
     @Scheduled(cron = "${scheduling.job.cron}")
     public void getWeatherInfoFromApiAtRegularIntervals() {
         WeatherInfoDto weatherInfoDto = parserWeatherRapid.parse();
-        save(weatherInfoDto);
+        if (weatherInfoDto != null) {
+            save(weatherInfoDto);
+        }
     }
 
     public Long save(WeatherInfoDto weatherInfoDto) {
         WeatherInfo weatherInfo = convertToWeatherInfo(weatherInfoDto);
-        WeatherInfo savedWeatherInfo = weatherRepository.save(weatherInfo);
+        WeatherInfo savedWeatherInfo = null;
 
-        log.info("The weather info was saved in database");
+        try {
+            savedWeatherInfo = weatherRepository.save(weatherInfo);
+            log.info("The weather info was saved in database");
+
+        } catch (IllegalArgumentException e) {
+            log.error("Failed to save data in database " + e);
+        }
+
+        assert savedWeatherInfo != null;
 
         return savedWeatherInfo.getId();
     }
@@ -46,7 +56,6 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         log.info("The last weather info got successfully from API");
 
         WeatherInfo weatherInfo = weatherRepository.findLastWeatherInfo();
-        System.out.println("weatherInfo " + weatherInfo.toString());
 
         return WeatherInfoDto.builder()
                 .id(weatherInfo.getId())
