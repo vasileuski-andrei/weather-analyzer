@@ -1,7 +1,7 @@
 package com.senla.weatheranalyzer.integration.service;
 
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
-import com.senla.weatheranalyzer.integration.TestBase;
+import com.senla.weatheranalyzer.TestBase;
 import com.senla.weatheranalyzer.integration.annotation.IT;
 import com.senla.weatheranalyzer.service.WeatherService;
 import com.senla.weatheranalyzer.util.DateTimeUtil;

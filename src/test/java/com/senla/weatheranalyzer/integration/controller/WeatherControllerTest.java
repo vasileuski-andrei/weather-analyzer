@@ -1,6 +1,6 @@
 package com.senla.weatheranalyzer.integration.controller;
 
-import com.senla.weatheranalyzer.integration.TestBase;
+import com.senla.weatheranalyzer.TestBase;
 import com.senla.weatheranalyzer.integration.annotation.IT;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;

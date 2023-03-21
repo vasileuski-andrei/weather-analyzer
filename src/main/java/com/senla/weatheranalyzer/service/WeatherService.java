@@ -167,10 +167,6 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         return modelMapper.map(userDto, WeatherInfo.class);
     }
 
-    private WeatherInfoDto convertFromWeatherInfo(WeatherInfo weatherInfo) {
-        return modelMapper.map(weatherInfo, WeatherInfoDto.class);
-    }
-
     private WeatherAverageInfoDto convertFromWeatherInfoToWeatherAverageDto(WeatherInfo weatherInfo) {
 
         return WeatherAverageInfoDto.builder()
