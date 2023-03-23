@@ -13,9 +13,8 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/weather")
 @AllArgsConstructor
-@ResponseBody
+@RequestMapping("/api/v1/weather")
 public class WeatherController {
 
     private final WeatherService weatherService;
