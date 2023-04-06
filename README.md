@@ -12,9 +12,8 @@ Endpoints:
 GET /api/v1/weather - возвращает информацию из БД о текущей погоде(температура, скорость ветра и т.д.)
 POST /api/v1/weather - возвращает рассчитанную за указанный период информацию о среднесуточной температуре
 
-Run app:
-1. Запуск БД: docker-compose -f docker-compose.yml up -d
-2. Запуск приложения
+Run app in docker container:
+docker-compose -f docker-compose.yml up -d
 
 Пример:
 

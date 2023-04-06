@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/weather-db
+    url: jdbc:postgresql://host.docker.internal:5433/weather-db
     username: postgres
     password: pass
     driver-class-name: org.postgresql.Driver

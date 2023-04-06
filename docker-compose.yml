@@ -1,10 +1,19 @@
 version: '3.1'
 
 services:
+  weather-analyzer:
+    restart: always
+    container_name: weather
+    ports:
+        - "8080:8080"
+    depends_on:
+      - weather-db
+    build:
+      context: .
   weather-db:
     image: postgres
     restart: always
-    container_name: weather
+    container_name: weather-db
     ports:
       - "5433:5432"
     environment:
