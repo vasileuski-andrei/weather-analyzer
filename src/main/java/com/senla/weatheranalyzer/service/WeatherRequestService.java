@@ -1,6 +1,5 @@
 package com.senla.weatheranalyzer.service;
 
-import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,20 +14,23 @@ import java.net.http.HttpResponse;
 @Slf4j
 public class WeatherRequestService {
 
-    @Value("${data.api.uri}")
-    private String uri;
+    private final String uri;
+    private final String headerApiKey;
+    private final String headerApiHost;
+    private final String method;
+    private final String city;
 
-    @Value("${data.api.headerApiKey}")
-    private String headerApiKey;
-
-    @Value("${data.api.headerApiHost}")
-    private String headerApiHost;
-
-    @Value("${data.api.method}")
-    private String method;
-
-    @Value("${data.api.city}")
-    private String city;
+    public WeatherRequestService(@Value("${data.api.uri}") String uri,
+                                 @Value("${data.api.headerApiKey}") String headerApiKey,
+                                 @Value("${data.api.headerApiHost}") String headerApiHost,
+                                 @Value("${data.api.method}") String method,
+                                 @Value("${data.api.city}") String city) {
+        this.uri = uri;
+        this.headerApiKey = headerApiKey;
+        this.headerApiHost = headerApiHost;
+        this.method = method;
+        this.city = city;
+    }
 
     public String getDataFromApi() {
 

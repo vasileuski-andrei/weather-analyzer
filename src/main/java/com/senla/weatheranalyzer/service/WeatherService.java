@@ -3,13 +3,12 @@ package com.senla.weatheranalyzer.service;
 import com.senla.weatheranalyzer.dto.WeatherAverageInfoDto;
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.model.WeatherInfo;
-import com.senla.weatheranalyzer.parser.ParserWeatherRapid;
+import com.senla.weatheranalyzer.parser.Parser;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
 import com.senla.weatheranalyzer.util.DateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class WeatherService implements CommonService<WeatherInfoDto, Long> {
 
-    private final ParserWeatherRapid parserWeatherRapid;
+    private final Parser parserWeatherRapid;
     private final WeatherRepository weatherRepository;
     private final ModelMapper modelMapper;
 

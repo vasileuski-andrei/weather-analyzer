@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.service.WeatherRequestService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,14 +14,10 @@ import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class ParserWeatherRapid implements Parser {
 
     private final WeatherRequestService weatherApiService;
-
-    @Autowired
-    public ParserWeatherRapid(WeatherRequestService weatherApiService) {
-        this.weatherApiService = weatherApiService;
-    }
 
     @Override
     public WeatherInfoDto parse() {
