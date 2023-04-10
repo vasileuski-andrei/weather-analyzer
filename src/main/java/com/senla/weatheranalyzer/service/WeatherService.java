@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -53,9 +54,13 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         getWeatherInfoFromApiAtRegularIntervals();
         log.info("The last weather info got successfully from API");
 
-        WeatherInfo weatherInfo = weatherRepository.findLastWeatherInfo();
+        WeatherInfoDto weatherInfoDto = null;
+        Optional<WeatherInfo> optionalWeatherInfo = weatherRepository.findLastWeatherInfo();
 
-        return WeatherInfoDto.builder()
+        if (optionalWeatherInfo.isPresent()) {
+            var weatherInfo = optionalWeatherInfo.get();
+
+            weatherInfoDto = WeatherInfoDto.builder()
                 .id(weatherInfo.getId())
                 .region(weatherInfo.getRegion())
                 .tempC(weatherInfo.getTempC())
@@ -66,6 +71,12 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
                 .localTime(weatherInfo.getLocalTime())
                 .build();
 
+        } else {
+            log.error("Failed to get data from database");
+            throw new RuntimeException("Failed to get data from database");
+        }
+
+        return weatherInfoDto;
     }
 
     public List<WeatherAverageInfoDto> getWeatherAverageInfoBetween(WeatherInfoDto weatherInfoDto) {
