@@ -13,16 +13,17 @@ GET /api/v1/weather - возвращает информацию из БД о т�
 POST /api/v1/weather - возвращает рассчитанную за указанный период информацию о среднесуточной температуре
 
 Run app in docker container:
-docker-compose -f docker-compose.yml up -d
+./start.sh
 
 Пример:
 
+Request:
 {
 "from": "18-03-2023",
 "to": "19-03-2023"
 }
 
-Response
+Response:
 {
 "region": "Minsk",
 "country": "Belarus",
