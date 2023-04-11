@@ -5,8 +5,9 @@ import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.parser.Parser;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
+import com.senla.weatheranalyzer.requester.Requester;
 import com.senla.weatheranalyzer.util.DateTimeUtil;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,17 +18,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class WeatherService implements CommonService<WeatherInfoDto, Long> {
 
-    private final Parser parserWeatherRapid;
     private final WeatherRepository weatherRepository;
+    private final Requester weatherRequesterImpl;
+    private final Parser parserWeatherRapid;
     private final ModelMapper modelMapper;
 
     @Scheduled(cron = "${scheduling.job.cron}")
     public void getWeatherInfoFromApiAtRegularIntervals() {
-        WeatherInfoDto weatherInfoDto = parserWeatherRapid.parse();
+        var dataFromApi = weatherRequesterImpl.getDataFromApi();
+        var weatherInfoDto = parserWeatherRapid.parse(dataFromApi);
         if (weatherInfoDto != null) {
             save(weatherInfoDto);
         }

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
-import com.senla.weatheranalyzer.service.WeatherRequestService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,20 +12,16 @@ import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Component
-@AllArgsConstructor
 public class ParserWeatherRapid implements Parser {
 
-    private final WeatherRequestService weatherApiService;
-
     @Override
-    public WeatherInfoDto parse() {
-        String dataFromApi = weatherApiService.getDataFromApi();
+    public WeatherInfoDto parse(String data) {
         ObjectMapper mapper = new ObjectMapper();
         WeatherInfoDto weatherInfoDto = null;
         JsonNode jsonNode = null;
 
         try {
-            jsonNode = mapper.readTree(dataFromApi);
+            jsonNode = mapper.readTree(data);
 
             JsonNode location = jsonNode.get("location");
             JsonNode current = jsonNode.get("current");
@@ -51,7 +45,7 @@ public class ParserWeatherRapid implements Parser {
             log.info("Parse the data weather finished successfully. WeatherInfoDto was created");
 
         } catch (JsonProcessingException e) {
-            log.error("JSON parsing error, JSON: {}", dataFromApi, e);
+            log.error("JSON parsing error, JSON: {}", data, e);
         }
 
         return weatherInfoDto;

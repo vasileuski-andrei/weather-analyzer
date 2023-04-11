@@ -1,4 +1,4 @@
-package com.senla.weatheranalyzer.service;
+package com.senla.weatheranalyzer.requester;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
 
 @Component
 @Slf4j
-public class WeatherRequestService {
+public class WeatherRequesterImpl implements Requester {
 
     private final String uri;
     private final String headerApiKey;
@@ -20,11 +20,11 @@ public class WeatherRequestService {
     private final String method;
     private final String city;
 
-    public WeatherRequestService(@Value("${data.api.uri}") String uri,
-                                 @Value("${data.api.headerApiKey}") String headerApiKey,
-                                 @Value("${data.api.headerApiHost}") String headerApiHost,
-                                 @Value("${data.api.method}") String method,
-                                 @Value("${data.api.city}") String city) {
+    public WeatherRequesterImpl(@Value("${data.api.uri}") String uri,
+                                @Value("${data.api.headerApiKey}") String headerApiKey,
+                                @Value("${data.api.headerApiHost}") String headerApiHost,
+                                @Value("${data.api.method}") String method,
+                                @Value("${data.api.city}") String city) {
         this.uri = uri;
         this.headerApiKey = headerApiKey;
         this.headerApiHost = headerApiHost;
