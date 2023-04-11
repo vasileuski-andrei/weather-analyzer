@@ -55,7 +55,7 @@ public class WeatherService implements CommonService<WeatherInfoDto, Long> {
         log.info("The last weather info got successfully from API");
 
         WeatherInfoDto weatherInfoDto = null;
-        Optional<WeatherInfo> optionalWeatherInfo = weatherRepository.findLastWeatherInfo();
+        Optional<WeatherInfo> optionalWeatherInfo = weatherRepository.findTopByOrderByIdDesc();
 
         if (optionalWeatherInfo.isPresent()) {
             var weatherInfo = optionalWeatherInfo.get();

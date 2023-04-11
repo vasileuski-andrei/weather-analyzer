@@ -12,11 +12,7 @@ import java.util.Optional;
 @Repository
 public interface WeatherRepository extends JpaRepository<WeatherInfo, Long> {
 
-    @Query(value = "SELECT * " +
-            "FROM weather_info as w " +
-            "ORDER BY w.id " +
-            "DESC LIMIT 1", nativeQuery = true)
-    Optional<WeatherInfo> findLastWeatherInfo();
+    Optional<WeatherInfo> findTopByOrderByIdDesc();
 
     @Query("select w from WeatherInfo w where w.localtimeEpoch between :from and :to")
     List<WeatherInfo> findAllWeatherInfoBetween(@Param("from") Long from, @Param("to")Long to);
