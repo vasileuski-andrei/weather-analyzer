@@ -13,8 +13,10 @@ import java.util.Optional;
 public interface WeatherRepository extends JpaRepository<WeatherInfo, Long> {
 
     Optional<WeatherInfo> findTopByOrderByIdDesc();
-
+    //не понимаю зачем в лог пришлось перегонять вроде можно же нормально с датой работать....
+    //findBySegmentDttmBetween(LocalDateTime segmentCreateDateTimeFrom, LocalDateTime segmentCreateDateTimeTo)
+    // если TIMESTAMP в бд, обычно даты так хранятся по практике это более наглядно и понятно
+    //не знаю я не сильно вникала что от сервера погоды приходит, но для дат в бд обычно используют TIMESTAMP/LocalDateTime в джаве
     @Query("select w from WeatherInfo w where w.localtimeEpoch between :from and :to")
     List<WeatherInfo> findAllWeatherInfoBetween(@Param("from") Long from, @Param("to")Long to);
-
 }

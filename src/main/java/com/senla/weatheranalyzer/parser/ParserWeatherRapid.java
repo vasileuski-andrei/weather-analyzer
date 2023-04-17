@@ -49,6 +49,6 @@ public class ParserWeatherRapid implements Parser {
         }
 
         return weatherInfoDto;
-
+        //
     }
 }

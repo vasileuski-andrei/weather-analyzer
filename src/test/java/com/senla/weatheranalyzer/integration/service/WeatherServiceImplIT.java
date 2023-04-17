@@ -3,7 +3,7 @@ package com.senla.weatheranalyzer.integration.service;
 import com.senla.weatheranalyzer.dto.WeatherInfoDto;
 import com.senla.weatheranalyzer.TestBase;
 import com.senla.weatheranalyzer.integration.annotation.IT;
-import com.senla.weatheranalyzer.service.WeatherService;
+import com.senla.weatheranalyzer.service.impl.WeatherServiceImpl;
 import com.senla.weatheranalyzer.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @IT
 @RequiredArgsConstructor
-public class WeatherServiceIT extends TestBase {
+public class WeatherServiceImplIT extends TestBase {
 
-    private final WeatherService weatherService;
+    private final WeatherServiceImpl weatherServiceImpl;
     private static WeatherInfoDto weatherInfoDto;
 
     private static final int ENTITIES_AMOUNT = 2;
@@ -44,7 +44,7 @@ public class WeatherServiceIT extends TestBase {
     @Test
     public void getWeatherAverageInfoBetweenTest() {
 
-        var actual = weatherService.getWeatherAverageInfoBetween(weatherInfoDto).size();
+        var actual = weatherServiceImpl.getWeatherAverageInfoBetween(weatherInfoDto).size();
 
         assertThat(actual).isEqualTo(ENTITIES_AMOUNT);
 
@@ -53,7 +53,7 @@ public class WeatherServiceIT extends TestBase {
     @Test
     public void getCurrentWeatherInfoTest() {
 
-        var actual = weatherService.getCurrentWeatherInfo().getId();
+        var actual = weatherServiceImpl.getCurrentWeatherInfo().getId();
 
         assertThat(actual).isGreaterThan(0);
 
@@ -62,7 +62,7 @@ public class WeatherServiceIT extends TestBase {
     @Test
     public void saveWeatherInfoTest() {
 
-        var actual = weatherService.save(weatherInfoDto);
+        var actual = weatherServiceImpl.save(weatherInfoDto);
 
         assertThat(actual).isGreaterThan(0);
 

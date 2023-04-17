@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "weather_info")
 public class WeatherInfo {
-
+    //я говорила на собеседовании что принято все поля прописывать для большей наглядности и
+    //и во избежании ошибок
+    //на проекте может всякое встретиться но нас так учили
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,5 +33,5 @@ public class WeatherInfo {
     private Double pressureIn;
     private Double humidity;
     private Double cloud;
-
+    //empty string
 }

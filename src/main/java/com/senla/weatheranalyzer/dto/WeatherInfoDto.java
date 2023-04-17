@@ -33,7 +33,9 @@ public class WeatherInfoDto {
     private Double humidity;
     private Double cloud;
 
+
+    //поля from to надо вынести в отдельное дто, оно логически не связано с WeatherInfo. Дто логически тоже принято разделять
     private String from;
     private String to;
-
+    //empty string(
 }

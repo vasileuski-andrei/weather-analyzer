@@ -42,5 +42,5 @@ public class WeatherAverageInfoDto {
     private Integer rowAmount;
 
 
-
+//пустые строки не аккуратно
 }

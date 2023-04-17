@@ -5,6 +5,7 @@ import com.senla.weatheranalyzer.TestBase;
 import com.senla.weatheranalyzer.model.WeatherInfo;
 import com.senla.weatheranalyzer.parser.ParserWeatherRapid;
 import com.senla.weatheranalyzer.repository.WeatherRepository;
+import com.senla.weatheranalyzer.service.impl.WeatherServiceImpl;
 import com.senla.weatheranalyzer.util.DateTimeUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,14 +19,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class WeatherServiceTest extends TestBase {
+class WeatherServiceImplTest extends TestBase {
 
     public static final int EXPECTED_SIZE = 1;
     private static final String FROM_DATE = "12-03-2023";
     private static final String TO_DATE = "13-03-2023";
 
     @InjectMocks
-    private WeatherService weatherService;
+    private WeatherServiceImpl weatherServiceImpl;
 
     @Mock
     private WeatherRepository weatherRepository;
@@ -62,7 +63,7 @@ class WeatherServiceTest extends TestBase {
         listWeatherInfo.add(new WeatherInfo());
         doReturn(listWeatherInfo).when(weatherRepository).findAllWeatherInfoBetween(anyLong(), anyLong());
 
-        var actual = weatherService.getWeatherInfoBetween(weatherInfoDto);
+        var actual = weatherServiceImpl.getWeatherInfoBetween(weatherInfoDto);
 
         assertThat(actual).hasSize(EXPECTED_SIZE);
         verify(weatherRepository).findAllWeatherInfoBetween(anyLong(), anyLong());
@@ -76,7 +77,7 @@ class WeatherServiceTest extends TestBase {
         listWeatherInfo.add(weatherInfo);
         listWeatherInfo.add(weatherInfo);
 
-        var actual = weatherService.calculateAverageValues(listWeatherInfo);
+        var actual = weatherServiceImpl.calculateAverageValues(listWeatherInfo);
 
         assertThat(actual).hasSize(EXPECTED_SIZE);
 

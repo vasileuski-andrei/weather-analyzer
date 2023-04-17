@@ -51,5 +51,5 @@ public class WeatherRequesterImpl implements Requester {
         log.info("The data got successfully from API: {}", uri + " " + response.body());
         return response.body();
     }
-
+//
 }
